@@ -17,6 +17,8 @@ pub enum Command {
     NICK(String),
     /// USER user mode * :realname
     USER(String, String, String),
+    /// ACTION :action
+    ACTION(String),
     /// OPER name :password
     OPER(String, String),
     /// MODE nickname modes
@@ -171,6 +173,7 @@ impl Into<Message> for Command {
             Command::NICK(n) => Message::from_owned(None, string("NICK"), None, Some(n)),
             Command::USER(u, m, r) =>
                 Message::from_owned(None, string("USER"), Some(vec![u, m, string("*")]), Some(r)),
+            Command::ACTION(w) => Message::from_owned(None, string("ACTION"), None, Some(w)),
             Command::OPER(u, p) =>
                 Message::from_owned(None, string("OPER"), Some(vec![u]), Some(p)),
             Command::MODE(t, m, Some(p)) =>
